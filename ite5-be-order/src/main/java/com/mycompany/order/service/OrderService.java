@@ -37,6 +37,10 @@ public class OrderService {
 		return orderDao.getOrderItemByOid(oid);
 	}
 	
+	public int cancleOrder(String oid, String status) {
+		return orderDao.cancleOrder(oid, status);
+	}
+	
 	@Transactional
 	public OrderResult addDirectOrder(Orders order, OrderItem orderItem){
 		try {

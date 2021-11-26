@@ -8,7 +8,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -64,7 +66,7 @@ public class OrderController {
 
 		order.setMid(mid);
 		order.setOid(new Date().getTime() + "_" + mid);//어떻게 정할까요
-		order.setOstate("주문완료");
+		order.setOstatus("주문완료");
 		
 		orderItem.setOid(order.getOid());
 		
@@ -75,11 +77,11 @@ public class OrderController {
 		return map;
 	}
 
-	@PostMapping("/order/{psid}")
-	public Map<String, String> order(HttpServletRequest request, Orders order, List<OrderItem> orderItems) {
+	@PostMapping("/carttoorder")
+	public Map<String, Object> order(HttpServletRequest request, Orders order, List<OrderItem> orderItems) {
 		log.info("실행");
 		String mid = null;
-		Map<String, String> map = new HashMap();
+		Map<String, Object> map = new HashMap();
 
 		if (!request.getHeader("Authorization").equals("")) {
 			String jwt = request.getHeader("Authorization").substring(7);
@@ -94,14 +96,14 @@ public class OrderController {
 
 		order.setMid(mid);
 		order.setOid(new Date().getTime() + "_" + mid);//어떻게 정할까요
-		order.setOstate("주문완료");
+		order.setOstatus("주문완료");
 		
 		for(OrderItem oi : orderItems) {
 			oi.setOid(order.getOid());
 		}
 		
 		OrderResult result = orderService.addOrder(order, orderItems);
-		map.put("result", result.toString());
+		map.put("result", result);
 
 		return map;
 	}
@@ -111,16 +113,20 @@ public class OrderController {
 		log.info("실행");
 
 		String mid = null;
+		Map<String, Object> itemList = new HashMap();
 
-		if (request.getHeader("Authorization") != null) {
+		if (!request.getHeader("Authorization").equals("")) {
 			String jwt = request.getHeader("Authorization").substring(7);
 			Claims claims = JWTUtil.validateToken(jwt);
 			mid = JWTUtil.getMid(claims);
 		}
+		
+		if(mid == null) {
+			itemList.put("result", "돌아가");
+			return itemList;
+		}
 
 		List<Orders> orders = orderService.getOrderList(mid);
-
-		Map<String, Object> itemList = new HashMap();
 
 		for (Orders order : orders) {
 
@@ -130,5 +136,30 @@ public class OrderController {
 		}
 
 		return itemList;
+	}
+	
+	@PutMapping("/cancleorder/{oid}")
+	public Map<String, Object> cancleorder(HttpServletRequest request, @PathVariable String oid) {
+		log.info("실행");
+
+		String mid = null;
+		Map<String, Object> map = new HashMap();
+
+		if (!request.getHeader("Authorization").equals("")) {
+			String jwt = request.getHeader("Authorization").substring(7);
+			Claims claims = JWTUtil.validateToken(jwt);
+			mid = JWTUtil.getMid(claims);
+		}
+		
+		if(mid == null) {
+			map.put("result", "돌아가");
+			return map;
+		}
+		
+		int result = orderService.cancleOrder(oid, "주문취소");
+		
+		map.put("result", result);
+
+		return map;
 	}
 }

@@ -7,13 +7,18 @@
 	
 	<insert id="addOders" parameterType="orders">
 		INSERT INTO orders(oid, ozipcode, oaddress, oreceiver, ophone, otel, omemo, oemail,
-			ousedmileage, obefroeprice, oafterprice, ostatus, mid, pmcode, odate)
-		VALUES(#{oid}, #{ozipcode}, #{oaddress}, #{oreceiver}, #{ophone}, #{otel}, #{omemo}, #{oemail},
-			#{ousedmileage}, #{obefroeprice}, #{oafterprice}, #{ostatus}, #{mid}, #{mid}, #{odate})
+				ousedmileage, obefroeprice, oafterprice, ostatus, mid, pmcode, odate)
+			VALUES(#{oid}, #{ozipcode}, #{oaddress}, #{oreceiver}, #{ophone}, #{otel}, #{omemo}, #{oemail},
+				#{ousedmileage}, #{obefroeprice}, #{oafterprice}, #{ostatus}, #{mid}, #{mid}, #{odate})
 	</insert>
 	
 	<insert id="addOderItem" parameterType="orderItem">
 		INSERT INTO order_item(psid, oid, oicount, oitotalprice)
-		VALUES(#{psid}, #{oid}, #{oicount}, #{oitotalprice})
+			VALUES(#{psid}, #{oid}, #{oicount}, #{oitotalprice})
 	</insert>
+	
+	<update id="cancleOrder" parameterType="String">
+		UPDATE orders SET ostatus=#{ostatus}
+			WHERE oid=#{oid}
+	</update>
 </mapper>

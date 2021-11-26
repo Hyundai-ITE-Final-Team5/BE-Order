@@ -17,7 +17,7 @@ public class Orders {
 	int ousedmileage;
 	int obeforeprice;
 	int oafterprice;
-	String ostate;
+	String ostatus;
 	String mid;
 	String pmcode;
 	Date odate;
