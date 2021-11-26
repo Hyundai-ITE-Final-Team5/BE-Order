@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mycompany.order.orderdao.OrderDao">
+	<select id="getPaymethodList" resultType="paymentmethod">
+		SELECT pmcode, pmcompany, pmmethod
+			FROM payment_method
+	</select>
+	
+	<select id="getOrderList" resultType="Orders" parameterType="String">
+		SELECT * FROM orders
+			WHERE mid=#{mid}
+			ORDER BY odate DESC
+	</select>
+	
+	<select id="getOrderItemByOid" resultType="orderitem" parameterType="String">
+		SELECT psid, oid, oicount, oitotalprice 
+			FROM order_item
+			WHERE oid=#{oid}
+	</select>
+</mapper>

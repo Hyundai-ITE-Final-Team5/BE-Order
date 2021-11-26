@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mycompany.product.orderdao.OrderDao">
+	
+	<insert id="addOders" parameterType="orders">
+		INSERT INTO orders(oid, ozipcode, oaddress, oreceiver, ophone, otel, omemo, oemail,
+				ousedmileage, obefroeprice, oafterprice, ostatus, mid, pmcode, odate)
+			VALUES(#{oid}, #{ozipcode}, #{oaddress}, #{oreceiver}, #{ophone}, #{otel}, #{omemo}, #{oemail},
+				#{ousedmileage}, #{obefroeprice}, #{oafterprice}, #{ostatus}, #{mid}, #{mid}, #{odate})
+	</insert>
+	
+	<insert id="addOderItem" parameterType="orderItem">
+		INSERT INTO order_item(psid, oid, oicount, oitotalprice)
+			VALUES(#{psid}, #{oid}, #{oicount}, #{oitotalprice})
+	</insert>
+	
+	<update id="cancleOrder" parameterType="String">
+		UPDATE orders SET ostatus=#{ostatus}
+			WHERE oid=#{oid}
+	</update>
+</mapper>
