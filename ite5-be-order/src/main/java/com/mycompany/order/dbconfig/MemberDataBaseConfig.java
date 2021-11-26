@@ -1,4 +1,4 @@
-package com.mycompany.order.dpconfig;
+package com.mycompany.order.dbconfig;
 
 import javax.sql.DataSource;
 
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 //@MapperScan에서 value가 다른 config와 달라야한다.
 @Configuration 
-@MapperScan(value="com.mycompany.product.memberdao", sqlSessionFactoryRef="memberSqlSessionFactory") 
+@MapperScan(value="com.mycompany.order.memberdao", sqlSessionFactoryRef="memberSqlSessionFactory") 
 @EnableTransactionManagement 
 public class MemberDataBaseConfig {
 	@Primary 

@@ -1,4 +1,4 @@
-package com.mycompany.order.dpconfig;
+package com.mycompany.order.dbconfig;
 
 import javax.sql.DataSource;
 

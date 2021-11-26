@@ -13,4 +13,6 @@ public interface OrderDao {
 	public List<PaymentMethod> getPaymethodList();
 	public List<Orders> getOrderList(String mid);
 	public List<OrderItem> getOrderItemByOid(String oid);
+	public void addOders(Orders order);
+	public void addOderItem(OrderItem orderItem);
 }
