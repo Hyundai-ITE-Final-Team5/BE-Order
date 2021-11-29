@@ -21,5 +21,5 @@ public class Orders {
 	String mid;
 	String pmcode;
 	Date odate;
-	Object oitems;
+	String cpid;
 }

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,7 +46,7 @@ public class OrderController {
 		return map;
 	}
 
-	@PostMapping("/directorder/{psid}")
+	@RequestMapping("/directorder/{psid}")
 	public Map<String, String> directOrder(HttpServletRequest request, Orders order, OrderItem orderItem) {
 		log.info("실행");
 		
@@ -78,10 +79,14 @@ public class OrderController {
 	}
 
 	@PostMapping("/carttoorder")
-	public Map<String, Object> order(HttpServletRequest request, Orders order, List<OrderItem> orderItems) {
+	public Map<String, Object> order(HttpServletRequest request, @RequestBody List<OrderItem> orderItems) {
 		log.info("실행");
 		String mid = null;
 		Map<String, Object> map = new HashMap();
+		
+		log.info(orderItems.toString());
+//		log.info(json);
+//		List<OrderItem> orderItems = json.get
 
 		if (!request.getHeader("Authorization").equals("")) {
 			String jwt = request.getHeader("Authorization").substring(7);
@@ -93,6 +98,8 @@ public class OrderController {
 			 map.put("result", "돌아가");
 			return map;
 		}
+		
+		Orders order = new Orders();
 
 		order.setMid(mid);
 		order.setOid(new Date().getTime() + "_" + mid);//어떻게 정할까요
@@ -101,6 +108,8 @@ public class OrderController {
 		for(OrderItem oi : orderItems) {
 			oi.setOid(order.getOid());
 		}
+		
+		log.info(orderItems.toString());
 		
 		OrderResult result = orderService.addOrder(order, orderItems);
 		map.put("result", result);

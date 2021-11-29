@@ -57,9 +57,11 @@ public class OrderService {
 	@Transactional
 	public OrderResult addOrder(Orders order, List<OrderItem> orderItems){
 		try {
-			orderDao.addOders(order);
+			int orderResult = orderDao.addOders(order);
+			log.info(orderResult + " ");
 			for(OrderItem oi : orderItems) {
-				orderDao.addOderItem(oi);
+				int orderItemResult = orderDao.addOderItem(oi);
+				log.info(orderItemResult + " ");
 			}
 			
 			return OrderResult.SUCCESS;
