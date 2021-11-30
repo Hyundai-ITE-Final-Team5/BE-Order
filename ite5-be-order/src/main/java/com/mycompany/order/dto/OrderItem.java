@@ -8,4 +8,5 @@ public class OrderItem {
 	String oid;
 	int oicount;
 	int oitotalprice;
+	Object ItemInfo;
 }

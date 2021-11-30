@@ -12,5 +12,7 @@
 			type="com.mycompany.order.dto.PaymentMethod" />
 		<typeAlias alias="member"
 			type="com.mycompany.order.dto.Member" />
+		<typeAlias alias="product"
+			type="com.mycompany.order.dto.Product" />
 	</typeAliases>
 </configuration>

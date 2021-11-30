@@ -1,6 +1,7 @@
 package com.mycompany.order.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -8,7 +9,8 @@ import lombok.Data;
 public class Orders {
 	String oid;
 	String ozipcode;
-	String oaddress;
+	String oaddress1;
+	String oaddress2;
 	String oreceiver;
 	String ophone;
 	String otel;
@@ -22,4 +24,5 @@ public class Orders {
 	String pmcode;
 	Date odate;
 	String cpid;
+	List<OrderItem> items;
 }
