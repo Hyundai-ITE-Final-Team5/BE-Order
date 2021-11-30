@@ -14,7 +14,7 @@
 
 `POST` **/order/carttoorder** : 장바구니에서 주문하기 (data : {order: {}, orderItems: []})
 
-`PUT` **/order/cancleorder/{oid}** : oid 주문 취소하기 (update 주문상태 변경)
+`PUT` **/order/cancelorder/{oid}** : oid 주문 취소하기 (update 주문상태 변경)
 
 -----------------------------------------
 
