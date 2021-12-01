@@ -60,7 +60,7 @@ public class OrderService {
 
 			return OrderResult.SUCCESS;
 		} catch (Exception e) {
-			log.info("실패라고?");
+			e.printStackTrace();
 			return OrderResult.FAIL;
 		}
 	}
@@ -72,21 +72,18 @@ public class OrderService {
 			String oid = order.getOid();
 			for (OrderItem oi : orderItems) {
 				oi.setOid(oid);
-				orderDao.addOderItem(oi);
-				// 카트제거
-				memberDao.removeCart(order.getMid(), oi.getPsid());
+				orderDao.addOderItem(oi);				
+				memberDao.removeCart(order.getMid(), oi.getPsid());// 카트제거
 				// 재고감소
 			}			
 			order.setOusedmileage((int)(order.getOafterprice()*0.05) - order.getOusedmileage());
-			memberDao.updateMileage(order);
-			// 쿠폰상태변경
-			if (!order.getCpid().equals(""))
+			memberDao.updateMileage(order);			
+			if (!order.getCpid().equals(""))// 쿠폰상태변경
 				memberDao.usingCoupon(order);
 			
 			return OrderResult.SUCCESS;
 		} catch (Exception e) {
-			log.info(e.toString());
-			log.info("실패?");
+			e.printStackTrace();
 			return OrderResult.FAIL;
 		}
 	}

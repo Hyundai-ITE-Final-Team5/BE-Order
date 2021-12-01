@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,15 +32,15 @@ public class MemberController {
 		
 		String mid = null;
 
-		if (!request.getHeader("Authorization").equals("")) {
+		if(request.getHeader("Authorization").equals("")) {
+			throw new AuthorizationServiceException("로그인 정보가 없습니다.");
+		}else {
 			String jwt = request.getHeader("Authorization").substring(7);
 			Claims claims = JWTUtil.validateToken(jwt);
 			mid = JWTUtil.getMid(claims);
-		}
-		
-		if(mid == null) {
-			 map.put("result", "돌아가");
-			return map;
+			if (mid == null) {
+				throw new AuthorizationServiceException("로그인 정보가 없습니다.");
+			}
 		}
 		
 		Member member = memberService.getMemberInfo(mid);

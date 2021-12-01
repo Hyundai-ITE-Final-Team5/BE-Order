@@ -9,6 +9,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.access.AuthorizationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,16 +58,16 @@ public class OrderController {
 		Map<String, String> map = new HashMap();
 
 		String mid = null;
-
-		if (!request.getHeader("Authorization").equals("")) {
+		
+		if(request.getHeader("Authorization").equals("")) {
+			throw new AuthorizationServiceException("로그인 정보가 없습니다.");
+		}else {
 			String jwt = request.getHeader("Authorization").substring(7);
 			Claims claims = JWTUtil.validateToken(jwt);
 			mid = JWTUtil.getMid(claims);
-		}
-
-		if (mid == null) {
-			map.put("result", "돌아가");
-			return map;
+			if (mid == null) {
+				throw new AuthorizationServiceException("로그인 정보가 없습니다.");
+			}
 		}
 
 		order.setMid(mid);
@@ -86,16 +88,18 @@ public class OrderController {
 		log.info("실행");
 		String mid = null;
 		Map<String, Object> map = new HashMap();
+		
+		log.info(order.toString());
 
-		if (!request.getHeader("Authorization").equals("")) {
+		if(request.getHeader("Authorization").equals("")) {
+			throw new AuthorizationServiceException("로그인 정보가 없습니다.");
+		}else {
 			String jwt = request.getHeader("Authorization").substring(7);
 			Claims claims = JWTUtil.validateToken(jwt);
 			mid = JWTUtil.getMid(claims);
-		}
-
-		if (mid == null) {
-			map.put("result", "돌아가");
-			return map;
+			if (mid == null) {
+				throw new AuthorizationServiceException("로그인 정보가 없습니다.");
+			}
 		}
 
 		order.setMid(mid);
@@ -121,14 +125,19 @@ public class OrderController {
 
 		String mid = null;
 		
-
-		if (!request.getHeader("Authorization").equals("")) {
+		if(request.getHeader("Authorization").equals("")) {
+			throw new AuthorizationServiceException("로그인 정보가 없습니다.");
+		}else {
 			String jwt = request.getHeader("Authorization").substring(7);
 			Claims claims = JWTUtil.validateToken(jwt);
 			mid = JWTUtil.getMid(claims);
+			if (mid == null) {
+				throw new AuthorizationServiceException("로그인 정보가 없습니다.");
+			}
 		}
-
+		
 		List<Orders> orderList = new ArrayList();
+
 		List<Orders> orders = orderService.getOrderList(mid);
 
 		for (Orders order : orders) {
@@ -159,15 +168,15 @@ public class OrderController {
 		String mid = null;
 		Map<String, Object> map = new HashMap();
 
-		if (!request.getHeader("Authorization").equals("")) {
+		if(request.getHeader("Authorization").equals("")) {
+			throw new AuthorizationServiceException("로그인 정보가 없습니다.");
+		}else {
 			String jwt = request.getHeader("Authorization").substring(7);
 			Claims claims = JWTUtil.validateToken(jwt);
 			mid = JWTUtil.getMid(claims);
-		}
-
-		if (mid == null) {
-			map.put("result", "돌아가");
-			return map;
+			if (mid == null) {
+				throw new AuthorizationServiceException("로그인 정보가 없습니다.");
+			}
 		}
 
 		int result = orderService.cancleOrder(mid, oid, "주문취소");
