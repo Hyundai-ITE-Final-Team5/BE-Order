@@ -18,7 +18,8 @@
 	</insert>
 	
 	<update id="cancleOrder" parameterType="String">
-		UPDATE orders SET ostatus=#{ostatus}
+		UPDATE orders SET ostatus=#{status}
 			WHERE oid=#{oid}
+			AND mid=#{mid}
 	</update>
 </mapper>

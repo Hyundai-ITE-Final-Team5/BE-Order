@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -119,19 +120,16 @@ public class OrderController {
 		log.info("실행");
 
 		String mid = null;
+		
+
+		if (!request.getHeader("Authorization").equals("")) {
+			String jwt = request.getHeader("Authorization").substring(7);
+			Claims claims = JWTUtil.validateToken(jwt);
+			mid = JWTUtil.getMid(claims);
+		}
+
 		List<Orders> orderList = new ArrayList();
-
-//		if (!request.getHeader("Authorization").equals("")) {
-//			String jwt = request.getHeader("Authorization").substring(7);
-//			Claims claims = JWTUtil.validateToken(jwt);
-//			mid = JWTUtil.getMid(claims);
-//		}
-//
-//		if (mid == null) {
-//			return orderList;
-//		}
-
-		List<Orders> orders = orderService.getOrderList("user1");
+		List<Orders> orders = orderService.getOrderList(mid);
 
 		for (Orders order : orders) {
 			List<OrderItem> items = orderService.getOrderItemByOid(order.getOid());
@@ -144,18 +142,18 @@ public class OrderController {
 				String pcid = pids[0] + "_" + pids[1];
 				
 				Product pd = orderService.getOrderdItems(pid, pcid);
+				pd.setPsize(pids[2]);
 				item.setItemInfo(pd);
 			}
 			
 			orderList.add(order);
 		}
-		log.info(orderList.toString());
 		
 		return orderList;
 	}
 
-	@PutMapping("/cancleorder/{oid}")
-	public Map<String, Object> cancleorder(HttpServletRequest request, @PathVariable String oid) {
+	@GetMapping("/cancelorder/{oid}")
+	public Map<String, Object> cancelorder(HttpServletRequest request, @PathVariable String oid) {
 		log.info("실행");
 
 		String mid = null;
@@ -172,7 +170,7 @@ public class OrderController {
 			return map;
 		}
 
-		int result = orderService.cancleOrder(oid, "주문취소");
+		int result = orderService.cancleOrder(mid, oid, "주문취소");
 
 		map.put("result", result);
 

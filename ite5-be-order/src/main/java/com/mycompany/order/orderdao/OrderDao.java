@@ -15,5 +15,5 @@ public interface OrderDao {
 	public List<OrderItem> getOrderItemByOid(String oid);
 	public int addOders(Orders order);
 	public int addOderItem(OrderItem orderItem);
-	public int cancleOrder(String oid, String status);
+	public int cancleOrder(String mid, String oid, String status);
 }

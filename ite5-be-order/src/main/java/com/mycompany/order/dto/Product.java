@@ -11,4 +11,6 @@ public class Product {
 	private int pcprice;
 	private String pcimg1;
 	private String pcid;
+	private String pcchipimg;
+	private String psize;
 }

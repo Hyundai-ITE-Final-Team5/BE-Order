@@ -48,8 +48,8 @@ public class OrderService {
 		return orderDao.getOrderItemByOid(oid);
 	}
 
-	public int cancleOrder(String oid, String status) {
-		return orderDao.cancleOrder(oid, status);
+	public int cancleOrder(String mid, String oid, String status) {
+		return orderDao.cancleOrder(mid, oid, status);
 	}
 
 	@Transactional
