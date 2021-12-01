@@ -4,8 +4,29 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mycompany.order.memberdao.MemberDao">
-	<select id="getMemberInfo" resultType="member" parameterType="String">
+	<select id="getMemberInfo" resultType="member"
+		parameterType="String">
 		SELECT * FROM member
-			WHERE mid=#{mid}
+		WHERE mid=#{mid}
 	</select>
+
+	<delete id="removeCart"
+		parameterType="String">
+		DELETE FROM cart
+		WHERE mid=#{mid}
+		AND psid=#{psid}
+	</delete>
+	
+	<update id="updateMileage" parameterType="orders">
+		UPDATE member
+			SET mmileage = mmileage + #{ousedmileage}
+			WHERE mid = #{mid}
+	</update>
+	
+	<update id="usingCoupon" parameterType="orders">
+		UPDATE coupon_detail
+				SET cpstatus = 0
+				WHERE mid = #{mid}
+				AND cpid= #{cpid}
+	</update>
 </mapper>

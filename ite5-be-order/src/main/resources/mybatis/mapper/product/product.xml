@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mycompany.order.productdao.ProductDao">
+	<select id="getOrderdItems" resultType="product" parameterType="String">
+SELECT bname, pid, pname, pstatus, pcprice, pcimg1, pcid, pcchipimg
+    FROM brand JOIN (SELECT  pi.bno, pi.pid, pi.pname, pi.pstatus, pc.pcprice, pc.pcimg1, pc.pcid, pc.pcchipimg
+                                    FROM product_common pi JOIN product_color pc
+                                    ON pi.pid = pc.pid
+                                    WHERE pc.pcid =  #{pcid}) pd
+    ON brand.bno = pd.bno
+	</select>
+</mapper>
