@@ -2,7 +2,10 @@ package com.mycompany.order.security;
 
 import java.util.Date;
 
+import org.springframework.security.web.csrf.InvalidCsrfTokenException;
+
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +60,7 @@ public class JWTUtil {
 						.getBody();
 			result = claims;
 		} catch(Exception e) {
+			throw new ExpiredJwtException(null, result, "로그인이 만료 되었습니다.");
 		}
 		return result;
 	}

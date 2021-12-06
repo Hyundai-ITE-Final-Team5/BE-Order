@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
-	@Resource
+	@Resource(name="memberDataSource")
 	private DataSource dataSource;
 	
 	@Override
